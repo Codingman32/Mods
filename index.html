@@ -1,220 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title id="tabTitle">Google Sheets</title>
-<link id="favicon" rel="icon" href="https://ssl.gstatic.com/sheets/images/favicon_v1.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-:root {
-  --bg: #000;
-  --fg: #0f0;
-  --ui: #111;
-  --font: 'Courier New', monospace;
-}
-* {margin:0;padding:0;box-sizing:border-box;}
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-header {
-  background: var(--fg);
-  color: var(--bg);
-  padding: 1rem;
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: bold;
-}
-nav {
-  background: var(--ui);
-  padding: 0.75rem;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-nav button {
-  background: var(--fg);
-  color: var(--bg);
-  border: none;
-  padding: 6px 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.3s;
-}
-nav button:hover {
-  background: lime;
-}
-main {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
-  gap: 1rem;
-  padding: 1rem;
-  flex-grow: 1;
-}
-.card {
-  background: var(--ui);
-  border: 1px solid var(--fg);
-  border-radius: 6px;
-  overflow: hidden;
-  transition: 0.3s;
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-}
-.card:hover {
-  transform: scale(1.03);
-}
-.card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-}
-.card h2 {
-  font-size: 1rem;
-  padding: 0.5rem;
-  text-align: center;
-}
-iframe {
-  width: 100%;
-  height: calc(100vh - 100px);
-  border: none;
-  display: none;
-}
-#gameModal {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: #000;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  z-index: 1000;
-}
-#gameFrame {
-  width: 90%;
-  height: 85%;
-  border: 2px solid var(--fg);
-  border-radius: 8px;
-}
-#closeBtn {
-  background: var(--fg);
-  color: var(--bg);
-  margin-top: 1rem;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-}
-#closeBtn:hover {
-  background: lime;
-}
-#afkBlur {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
-  z-index: 999;
-  display: none;
-}
-@media(max-width:600px){
-  main{grid-template-columns:1fr;}
-  #gameFrame{width:95%;height:75%;}
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Modern Game Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --fg: #00ffcc;
+      --accent: #1a1a1a;
+      --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--accent);
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      border-bottom: 2px solid var(--fg);
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: var(--accent);
+      border-bottom: 1px solid var(--fg);
+    }
+    nav a {
+      color: var(--fg);
+      text-decoration: none;
+      padding: 1rem;
+      transition: background 0.3s;
+    }
+    nav a:hover {
+      background: var(--fg);
+      color: var(--bg);
+    }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .game-card {
+      background: var(--accent);
+      border: 1px solid var(--fg);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+    .game-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .game-card h3 {
+      margin: 1rem 0;
+    }
+    .game-card button {
+      margin-bottom: 1rem;
+      padding: 0.5rem 1rem;
+      background: var(--fg);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .game-card button:hover {
+      background: #00e6b8;
+    }
+    #game-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #game-modal iframe {
+      width: 80%;
+      height: 80%;
+      border: none;
+    }
+    #game-modal .close-btn {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: var(--fg);
+      color: var(--bg);
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+      }
+      .game-card img {
+        height: 150px;
+      }
+    }
+  </style>
 </head>
 <body>
-<header>Matrix Portal</header>
-<nav>
-  <button onclick="returnHome()">Home</button>
-  <button onclick="cloak('Google Docs','https://ssl.gstatic.com/docs/doclist/images/infinite_arrow_favicon_5.ico')">Docs</button>
-  <button onclick="cloak('Google Classroom','https://ssl.gstatic.com/classroom/favicon.png')">Classroom</button>
-  <button onclick="toggleFull()">Fullscreen</button>
-  <button onclick="panic()">Panic</button>
-</nav>
-<main id="gallery">
-  <div class="card" onclick="launch('https://ubg77.github.io/edit/retro-bowl/')">
-    <img src="https://i.imgur.com/khM3VKZ.png"><h2>Retro Bowl</h2>
+  <header>Modern Game Hub</header>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Games</a>
+    <a href="#">About</a>
+  </nav>
+  <main>
+    <div class="game-grid">
+      <div class="game-card">
+        <img src="https://via.placeholder.com/300x200?text=Game+1" alt="Game 1">
+        <h3>Game 1</h3>
+        <button onclick="openGame('https://example.com/game1')">Play</button>
+      </div>
+      <div class="game-card">
+        <img src="https://via.placeholder.com/300x200?text=Game+2" alt="Game 2">
+        <h3>Game 2</h3>
+        <button onclick="openGame('https://example.com/game2')">Play</button>
+      </div>
+      <div class="game-card">
+        <img src="https://via.placeholder.com/300x200?text=Game+3" alt="Game 3">
+        <h3>Game 3</h3>
+        <button onclick="openGame('https://example.com/game3')">Play</button>
+      </div>
+    </div>
+  </main>
+  <div id="game-modal">
+    <button class="close-btn" onclick="closeGame()">Close</button>
+    <iframe id="game-frame" src=""></iframe>
   </div>
-  <div class="card" onclick="launch('https://ubg77.github.io/edit/geometry-dash/')">
-    <img src="https://i.imgur.com/MlOT3kh.jpeg"><h2>Geometry Dash</h2>
-  </div>
-  <div class="card" onclick="launch('https://ubg98.github.io/funny-shooter-2/')">
-    <img src="https://i.imgur.com/su6n4Rr.png"><h2>Funny Shooter 2</h2>
-  </div>
-  <div class="card" onclick="launch('https://ubg98.github.io/1v1-lol/')">
-    <img src="https://i.imgur.com/3NEupKt.jpeg"><h2>1v1.LOL</h2>
-  </div>
-  <div class="card" onclick="launch('https://ubg77.github.io/edit/drift-hunters/')">
-    <img src="https://i.imgur.com/0RmNa1Z.jpeg"><h2>Drift Hunters</h2>
-  </div>
-  <div class="card" onclick="launch('https://ubg77.github.io/edit/ovo/')">
-    <img src="https://i.imgur.com/wToHb95.jpeg"><h2>OvO</h2>
-  </div>
-</main>
-<div id="gameModal">
-  <iframe id="gameFrame"></iframe>
-  <button id="closeBtn" onclick="exit()">Close Game</button>
-</div>
-<div id="afkBlur"></div>
-<script>
-const frame=document.getElementById("gameFrame"),
-modal=document.getElementById("gameModal"),
-blur=document.getElementById("afkBlur"),
-gallery=document.getElementById("gallery");
-function launch(url){
-  gallery.style.display='none';
-  modal.style.display='flex';
-  frame.style.display='block';
-  frame.src=url;
-}
-function exit(){
-  frame.src='about:blank';
-  frame.style.display='none';
-  modal.style.display='none';
-  gallery.style.display='grid';
-}
-function returnHome(){
-  exit();
-  cloak('Google Sheets','https://ssl.gstatic.com/sheets/images/favicon_v1.png');
-}
-function panic(){
-  returnHome();
-}
-function cloak(title,icon){
-  document.title=title;
-  document.getElementById("favicon").href=icon;
-}
-function toggleFull(){
-  if(!document.fullscreenElement){
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
-}
-let timer;
-function resetTimer(){
-  clearTimeout(timer);
-  blur.style.display='none';
-  timer=setTimeout(()=>{blur.style.display='block';},30000);
-}
-["click","keydown","mousemove","touchstart"].forEach(e=>{
-  document.addEventListener(e,resetTimer);
-});
-resetTimer();
-document.addEventListener("visibilitychange",()=>{if(document.hidden)panic();});
-setInterval(()=>{
-  const badWords=["goguardian","classwize","linewize","focus"];
-  const t=document.title.toLowerCase();
-  if(badWords.some(w=>t.includes(w))) panic();
-},2000);
-</script>
+  <script>
+    function openGame(url) {
+      document.getElementById('game-frame').src = url;
+      document.getElementById('game-modal').style.display = 'flex';
+    }
+    function closeGame() {
+      document.getElementById('game-frame').src = '';
+      document.getElementById('game-modal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
